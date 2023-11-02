@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список завдань</title>
+    <style>
+        #task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        getRemoveNewTask();
+
+    })
+    function getRemoveNewTask() {
+        const taskList = document.getElementById('task-list');
+        const taskInput = document.getElementById('task-input');
+        const addTaskButton = document.getElementById('add-task');
+
+        // Функція для видалення пункту списку
+        function removeTask(event) {
+            if (event.target.classList.contains('delete-button')) {
+                event.target.parentElement.remove();
+            }
+        }
+
+        // Додавання обробника подій до списку завдань з використанням делегування
+        taskList.addEventListener('click', removeTask);
+
+        // Додавання нового завдання до списку
+        addTaskButton.addEventListener('click', function () {
+            const taskText = taskInput.value;
+            if (taskText.trim() !== '') {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `
+                    <span>${taskText}</span>
+                    <button class="delete-button">Видалити</button>
+                `;
+                taskList.appendChild(taskItem);
+                taskInput.value = '';
+            }
+        });
+    }
+</script>
+
+<body>
+    <h1>Список завдань</h1>
+    <ul id="task-list"></ul>
+    <input type="text" id="task-input" placeholder="Введіть нове завдання">
+    <button id="add-task">Додати</button>
+</body>
+
+</html>
